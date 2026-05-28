@@ -34,7 +34,9 @@ export function Header({ onMenuToggle }: HeaderProps) {
 
   const navigate = useNavigate();
   const { user, logout } = useAuth();
-  const { notifications } = useEvents(); 
+  
+  // ✅ Pulled markAsRead from context to handle proper state cycles
+  const { notifications, markAsRead } = useEvents(); 
 
   const displayUser = {
     name: user?.fullName || "Mansilla Anyafrancine",
@@ -48,7 +50,14 @@ export function Header({ onMenuToggle }: HeaderProps) {
   const handleSelectNotification = (notif: Notification) => {
     setModalNotif(notif); 
     setNotifOpen(false);  
-    notif.unread = false; 
+    
+    // ✅ Safely trigger the context dispatcher state update 
+    if (typeof markAsRead === "function") {
+      markAsRead(notif.id);
+    } else {
+      // Inline state mutate fallback
+      notif.unread = false; 
+    }
   };
 
   useEffect(() => {
@@ -203,7 +212,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
 
           <div className="bg-white rounded-2xl w-full max-w-[420px] shadow-2xl overflow-hidden flex flex-col transform transition-all text-left border border-slate-100 animate-in zoom-in-95 duration-200">
             
-            {/* Modal Header (Changes color based on event context) */}
+            {/* Modal Header */}
             <div className={`px-5 py-4 text-white flex justify-between items-center shrink-0 ${isRegistrationNotif ? 'bg-[#00a669]' : 'bg-[#1e40af]'}`}>
               <div className="flex items-center gap-2">
                 {isRegistrationNotif ? <CheckCircle2 size={18} className="text-white" /> : <Megaphone size={18} className="text-blue-200" />}
@@ -222,7 +231,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
             {/* Modal Content Body */}
             <div className="p-5 space-y-4">
               
-              {/* LAYOUT A: STANDARD BULLETIN NOTICE (NO QR, JUST A WELCOME MESSAGE) */}
+              {/* LAYOUT A: STANDARD BULLETIN NOTICE */}
               {!isRegistrationNotif ? (
                 <div className="space-y-4 py-2">
                   <div className="space-y-1.5">
@@ -238,7 +247,6 @@ export function Header({ onMenuToggle }: HeaderProps) {
                 /* LAYOUT B: OFFICIAL REGISTRATION RECEIPT FLOW */
                 <div className="space-y-4">
                   
-                  {/* 1. THE CORRESPONDING REGISTERED EVENT TITLE */}
                   <div>
                     <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider block">Registered Event Target</span>
                     <h4 className="text-sm font-extrabold text-slate-800 leading-snug mt-0.5">
@@ -246,7 +254,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
                     </h4>
                   </div>
 
-                  {/* 2. SCANNABLE QR CODE MATRIX */}
+                  {/* SCANNABLE QR CODE MATRIX */}
                   <div className="flex flex-col items-center justify-center bg-white rounded-xl p-4 border border-slate-200 shadow-xs">
                     <QRCodeSVG 
                       value={JSON.stringify({
@@ -262,7 +270,7 @@ export function Header({ onMenuToggle }: HeaderProps) {
                     </span>
                   </div>
 
-                  {/* 3. ITEMIZATION TRANSACTION RECEIPT */}
+                  {/* ITEMIZATION TRANSACTION RECEIPT */}
                   <div className="bg-slate-50 border border-slate-200 rounded-xl p-3.5 font-mono text-[11px] space-y-1 text-slate-600">
                     <div className="flex justify-between">
                       <span>Ref No:</span>
@@ -274,7 +282,6 @@ export function Header({ onMenuToggle }: HeaderProps) {
                     </div>
                     <div className="flex justify-between">
                       <span>Reserved Seats:</span>
-                      {/* 🪑 Dynamically calculates true checked out seat count */}
                       <span className="text-slate-800 font-bold">
                         {modalNotif.quantity && modalNotif.quantity > 0 ? modalNotif.quantity : 1} Position(s)
                       </span>
@@ -287,7 +294,6 @@ export function Header({ onMenuToggle }: HeaderProps) {
                     </div>
                   </div>
 
-                  {/* 4. THE THANKS MESSAGE TO JOINING AN EVENT */}
                   <div className="text-center bg-emerald-50 text-[#00a669] border border-emerald-100 p-3 rounded-xl text-xs font-bold shadow-2xs">
                     🎉 Thanks for joining the event! See you there!
                   </div>

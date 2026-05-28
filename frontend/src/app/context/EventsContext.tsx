@@ -39,6 +39,8 @@ interface EventsContextType {
   // 🚀 Accepts a structural object layout from either announcements or your checkout components
   addNotification: (details: Omit<Notification, "id" | "time" | "unread">) => void; 
   clearNotifications: () => void; 
+  // ✅ Added type definition for state modification dispatcher
+  markAsRead: (id: string) => void;
 }
 
 const EventsContext = createContext<EventsContextType | undefined>(undefined);
@@ -153,16 +155,31 @@ const initialEvents: Event[] = [
 export function EventsProvider({ children }: { children: ReactNode }) {
   const [events, setEvents] = useState<Event[]>(initialEvents);
   
-  // Set default fallback notifications cleanly
-  const [notifications, setNotifications] = useState<Notification[]>([
-    {
-      id: "welcome-alert",
-      message: "Enjoy managing and checking into your campus events!",
-      eventTitle: "Welcome to Dr. Yanga's Events Manager Portal!",
-      time: "Just now",
-      unread: true
+  // ✅ 1. Read stored persistent notification configurations upon reload initialization
+  const getInitialNotifications = (): Notification[] => {
+    const defaultNotifs: Notification[] = [
+      {
+        id: "welcome-alert",
+        message: "Enjoy managing and checking into your campus events!",
+        eventTitle: "Welcome to Dr. Yanga's Events Manager Portal!",
+        time: "Just now",
+        unread: true
+      }
+    ];
+
+    try {
+      const savedReadIds = JSON.parse(localStorage.getItem("dyci_read_notifications") || "[]");
+      // Map across default setup values and check if they should be muted
+      return defaultNotifs.map(notif => ({
+        ...notif,
+        unread: savedReadIds.includes(notif.id) ? false : notif.unread
+      }));
+    } catch (e) {
+      return defaultNotifs;
     }
-  ]);
+  };
+
+  const [notifications, setNotifications] = useState<Notification[]>(getInitialNotifications);
 
   const addEvent = (eventData: Omit<Event, "id" | "participants" | "isMyEvent">) => {
     const newEvent: Event = {
@@ -199,6 +216,26 @@ export function EventsProvider({ children }: { children: ReactNode }) {
 
   const clearNotifications = () => {
     setNotifications([]);
+    localStorage.removeItem("dyci_read_notifications");
+  };
+
+  // ✅ 2. State-managed persistence handler to synchronize reading status across updates
+  const markAsRead = (id: string) => {
+    setNotifications((prevNotifs) => {
+      const updatedNotifs = prevNotifs.map((notif) =>
+        notif.id === id ? { ...notif, unread: false } : notif
+      );
+
+      try {
+        // Collect all IDs that have been marked read and commit them into localStorage
+        const readIds = updatedNotifs.filter(n => !n.unread).map(n => n.id);
+        localStorage.setItem("dyci_read_notifications", JSON.stringify(readIds));
+      } catch (error) {
+        console.error("Local storage allocation limit encountered", error);
+      }
+
+      return updatedNotifs;
+    });
   };
 
   return (
@@ -210,7 +247,8 @@ export function EventsProvider({ children }: { children: ReactNode }) {
         updateEvent, 
         deleteEvent, 
         addNotification, 
-        clearNotifications 
+        clearNotifications,
+        markAsRead // ✅ Exposed to Context children down the application DOM tree
       }}
     >
       {children}
