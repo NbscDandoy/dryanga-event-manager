@@ -155,7 +155,7 @@ const initialEvents: Event[] = [
 export function EventsProvider({ children }: { children: ReactNode }) {
   const [events, setEvents] = useState<Event[]>(initialEvents);
   
-  // ✅ 1. Read stored persistent notification configurations upon reload initialization
+// ✅ Safely type-checked initial notification loader for production compilation
   const getInitialNotifications = (): Notification[] => {
     const defaultNotifs: Notification[] = [
       {
@@ -168,8 +168,10 @@ export function EventsProvider({ children }: { children: ReactNode }) {
     ];
 
     try {
-      const savedReadIds = JSON.parse(localStorage.getItem("dyci_read_notifications") || "[]");
-      // Map across default setup values and check if they should be muted
+      const storedData = localStorage.getItem("dyci_read_notifications");
+      // Explicitly check for null/undefined before parsing
+      const savedReadIds: string[] = storedData ? JSON.parse(storedData) : [];
+      
       return defaultNotifs.map(notif => ({
         ...notif,
         unread: savedReadIds.includes(notif.id) ? false : notif.unread
@@ -179,7 +181,8 @@ export function EventsProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const [notifications, setNotifications] = useState<Notification[]>(getInitialNotifications);
+// 🌟 MAKE SURE THIS LINE USES THE FUNCTION ABOVE:
+const [notifications, setNotifications] = useState<Notification[]>(getInitialNotifications);
 
   const addEvent = (eventData: Omit<Event, "id" | "participants" | "isMyEvent">) => {
     const newEvent: Event = {
