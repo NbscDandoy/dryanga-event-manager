@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  
+  /* 🎨 Core Colors Restored from your Dashboard */
+  --color-background: #f4f6fa;
+  --color-foreground: #1e293b;
+  --color-card: #ffffff;
+  --color-card-foreground: #1e293b;
+  --color-primary: #1d4ed8;            /* Deep blue brand button/tab color */
+  --color-primary-foreground: #ffffff;
+  --color-muted: #f1f5f9;
+  --color-muted-foreground: #64748b;
+  --color-border: #e2e8f0;
+  
+  /* Sidebar Custom Palette mapping */
+  --color-sidebar: #1e40af;
+  --color-sidebar-foreground: #ffffff;
+}
+
+@layer base {
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin: 0;
+  }
+}
+
+/* Fix for the Recharts crash layout issue we tackled earlier */
+.chart-force-wrapper {
+  position: relative !important;
+  width: 100% !important;
+  height: 220px !important;
+  min-width: 0px !important;
+}
