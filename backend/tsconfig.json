@@ -1,0 +1,34 @@
+{
+  "compilerOptions": {
+    /* File Layout Configuration */
+    "rootDir": "./src",
+    "outDir": "./dist",
+
+    /* Environment Settings */
+    "module": "NodeNext",             // 👈 Crucial for Node.js ES Modules ("type": "module")
+    "moduleResolution": "NodeNext",   // 👈 Tells TS to follow Node's exact resolution steps
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "types": ["node"],
+
+    /* Transpilation Outputs */
+    "sourceMap": true,
+    "declaration": true,
+    "declarationMap": true,
+
+    /* Strict Typechecking Options */
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+
+    /* Interoperability & Modern Framework Options */
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    // ❌ Removed "jsx": "react-jsx" (Your backend doesn't render React HTML components)
+    "verbatimModuleSyntax": true,
+    "isolatedModules": true,
+    "moduleDetection": "force",
+    "skipLibCheck": true
+  },
+  "include": ["src/**/*"]
+}

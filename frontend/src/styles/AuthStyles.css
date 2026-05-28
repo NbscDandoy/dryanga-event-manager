@@ -1,0 +1,149 @@
+/* ==========================================================================
+   AuthStyles.css - Unified Campus Authentication System Layout
+   ========================================================================== */
+
+/* 1. Main Background Page Wrapper Canvas */
+.auth-page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e4e8eb 100%);
+  font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  padding: 1.5rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 2. Elevated Content Card Form Box */
+.auth-card {
+  background-color: #ffffff;
+  width: 100%;
+  max-width: 450px;
+  padding: 2.5rem 2.25rem;
+  border-radius: 16px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.03);
+  border: 1px solid #e2e8f0;
+  box-sizing: border-box;
+}
+
+/* 3. Header Text Layout Formats */
+.auth-title {
+  color: #1e293b;
+  font-size: 1.65rem;
+  font-weight: 800;
+  margin-top: 0.5rem;
+  margin-bottom: 0.25rem;
+  letter-spacing: -0.025em;
+}
+
+.auth-subtitle {
+  color: #64748b;
+  font-size: 0.95rem;
+  margin-top: 0;
+  margin-bottom: 1.75rem;
+}
+
+/* 4. Structural Form Group Inputs */
+.auth-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+  text-align: left;
+}
+
+.auth-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+/* 5. Icon Placement Engine & Text Input Fields */
+.relative {
+  position: relative;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.absolute {
+  position: absolute;
+}
+
+/* Centers lucide icons perfectly on the left side of the row line */
+.left-3 {
+  left: 0.75rem;
+}
+
+.text-muted-foreground\/70 {
+  color: #94a3b8;
+}
+
+.auth-input {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.75rem 0.75rem 0.75rem 2.75rem; /* 💡 Vital: leaves space so input text doesn't overlap icons */
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+  color: #334155;
+  outline: none;
+  background-color: #ffffff;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.auth-input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* 6. Primary Action Submission Button */
+.auth-submit-btn {
+  width: 100%;
+  background-color: #1d4ed8; /* Dr. Yanga's Core Blue */
+  color: #ffffff;
+  padding: 0.85rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 6px -1px rgba(29, 78, 216, 0.2);
+  transition: background-color 0.2s, transform 0.1s;
+  margin-top: 0.75rem;
+}
+
+.auth-submit-btn:hover {
+  background-color: #1e40af;
+}
+
+.auth-submit-btn:active {
+  transform: scale(0.99);
+}
+
+/* 7. Bottom Navigation Footer Link Items */
+.auth-footer-text {
+  text-align: center;
+  font-size: 0.875rem;
+  color: #64748b;
+  margin-top: 1.75rem;
+  margin-bottom: 0;
+}
+
+.auth-link {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.auth-link:hover {
+  text-decoration: underline;
+}
