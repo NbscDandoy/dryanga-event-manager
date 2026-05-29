@@ -8,10 +8,10 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-// ✅ FIXED IMPORTS: Swapped path targets to lowercase 'components' directory structure
-import { EventCard } from "../components/EventCard";
-import { AnalyticsCard } from "../components/AnalyticsCard";
-import { EventOverview } from "../components/EventOverview";
+// ✅ FIXED IMPORTS: Standardized all component structures to explicit named pairs
+import { EventCard } from "../Components/EventCard";
+import { AnalyticsCard } from "../Components/AnalyticsCard";
+import { EventOverview } from "../Components/EventOverview";
 import {
   BarChart,
   Bar,
@@ -21,10 +21,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { MobilePreview } from "../components/MobilePreview";
+import { MobilePreview } from "../Components/MobilePreview";
 import { useEvents } from "../context/EventsContext";
 import { useAuth } from "../context/AuthContext";
-import ManageEventModal from "../components/ManageEventModal";
+import { ManageEventModal } from "../Components/ManageEventModal"; // ✅ FIXED: Converted to named import
 import type { Event } from "../context/EventsContext";
 
 const analyticsData = [
@@ -57,7 +57,6 @@ export function Dashboard() {
     }
   }, []);
 
-  // Safe helper parsing handler to clean emails or full name strings down to just a first name
   const parseFirstName = (): string => {
     const rawIdentifier = user?.fullName || user?.name || user?.email;
     if (!rawIdentifier) return "Anyafrancine";
@@ -84,7 +83,6 @@ export function Dashboard() {
     });
   };
 
-  // ✅ Native Data Exporter Logic for System Management
   const handleExportSystemData = () => {
     if (!events || events.length === 0) {
       alert("No active events dataset found to export.");
@@ -92,7 +90,6 @@ export function Dashboard() {
     }
 
     try {
-      // Build standard layout matrix for CSV translation
       const csvHeaders = ["Event ID", "Title", "Date", "Location/Venue", "Participants Count"];
       const csvRows = events.map(event => [
         `"${event.id}"`,
@@ -107,7 +104,6 @@ export function Dashboard() {
         ...csvRows.map(row => row.join(","))
       ].join("\n");
 
-      // Initialize clean client browser link allocation streams
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -120,7 +116,6 @@ export function Dashboard() {
       link.click();
       document.body.removeChild(link);
       
-      // Clean garbage collection values
       URL.revokeObjectURL(url);
     } catch (error) {
       console.error("Export stream interrupted:", error);

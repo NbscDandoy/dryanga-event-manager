@@ -4,8 +4,8 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { EventsProvider } from "./context/EventsContext";
 import { AuthProvider } from "./context/AuthContext";
 
-// ✅ Components
-import ProtectedRoute from "./Components/ProtectedRoutes";
+// ✅ FIXED IMPORT: Changed from "ProtectedRoutes" to "ProtectedRoute" to match your actual file name!
+import ProtectedRoute from "./Components/ProtectedRoute";
 import { DashboardLayout } from "./Components/DashboardLayout";
 
 // ✅ Pages
@@ -21,7 +21,7 @@ import { Register } from "./pages/Register";
 import { Login } from "./pages/Login";
 import { PastEvents } from "./pages/PastEvents";
 import { ForgotPassword } from "./pages/ForgotPassword";
-import PaymentSuccess from "./pages/PaymentSuccess"; // 💳 Note: Changed to a standard default import to align perfectly with your component file setup
+import PaymentSuccess from "./pages/PaymentSuccess";
 
 export default function App() {
   return (
@@ -66,7 +66,7 @@ export default function App() {
               <Route path="past-events" element={<PastEvents />} />
               <Route path="settings" element={<Settings />} />
               
-              {/* ✅ NEW SECURE GATEWAY CHECKOUT ROUTE */}
+              {/* Secure Checkout Callback Gateway */}
               <Route path="payment-success" element={<PaymentSuccess />} />
             </Route>
 
