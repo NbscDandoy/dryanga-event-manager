@@ -4,9 +4,9 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { EventsProvider } from "./context/EventsContext";
 import { AuthProvider } from "./context/AuthContext";
 
-// ✅ Components
-import ProtectedRoute from "./Components/ProtectedRoutes";
-import { DashboardLayout } from "./Components/DashboardLayout";
+// ✅ Components (Fixed casing to match your lowercase 'components' folder on disk)
+import ProtectedRoute from "./components/ProtectedRoutes";
+import { DashboardLayout } from "./components/DashboardLayout";
 
 // ✅ Pages
 import { Dashboard } from "./pages/Dashboard";
