@@ -8,9 +8,10 @@ import {
   TrendingUp,
 } from "lucide-react";
 
-import { EventCard } from "../Components/EventCard";
-import { AnalyticsCard } from "../Components/AnalyticsCard";
-import { EventOverview } from "../Components/EventOverview";
+// ✅ FIXED IMPORTS: Swapped path targets to lowercase 'components' directory structure
+import { EventCard } from "../components/EventCard";
+import { AnalyticsCard } from "../components/AnalyticsCard";
+import { EventOverview } from "../components/EventOverview";
 import {
   BarChart,
   Bar,
@@ -20,10 +21,10 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { MobilePreview } from "../Components/MobilePreview";
+import { MobilePreview } from "../components/MobilePreview";
 import { useEvents } from "../context/EventsContext";
 import { useAuth } from "../context/AuthContext";
-import ManageEventModal from "../Components/ManageEventModal";
+import ManageEventModal from "../components/ManageEventModal";
 import type { Event } from "../context/EventsContext";
 
 const analyticsData = [
@@ -83,7 +84,7 @@ export function Dashboard() {
     });
   };
 
-  // ✅ NEW: Native Data Exporter Logic for System Management
+  // ✅ Native Data Exporter Logic for System Management
   const handleExportSystemData = () => {
     if (!events || events.length === 0) {
       alert("No active events dataset found to export.");
@@ -336,7 +337,6 @@ export function Dashboard() {
 
           {/* RIGHT SIDEBAR WRAPPER */}
           <div className="space-y-6 w-full shrink-0">
-            {/* ✅ FIX: We pass the export logic action down into the overview module component */}
             <EventOverview onExport={handleExportSystemData} />
             <MobilePreview />
           </div>
