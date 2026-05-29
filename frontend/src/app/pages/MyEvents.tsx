@@ -1,6 +1,7 @@
+// src/app/pages/MyEvents.tsx
 import { useState } from "react";
 import { EventCard } from "../Components/EventCard";
-import ManageEventModal from "../Components/ManageEventModal";
+import { ManageEventModal } from "../Components/ManageEventModal"; // ✅ FIXED: Changed to named import syntax
 import { useEvents } from "../context/EventsContext";
 import type { Event } from "../context/EventsContext";
 

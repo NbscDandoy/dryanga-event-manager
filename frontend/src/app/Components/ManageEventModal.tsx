@@ -1,6 +1,7 @@
+// src/app/Components/ManageEventModal.tsx
 import React, { useState, useEffect } from 'react';
 import { X, Users, Edit, Bell, ClipboardList, Download, Send } from 'lucide-react';
-import type { ActiveView, Event as CustomEvent } from '../../types'; 
+import type { Event as CustomEvent } from '../../types'; 
 
 interface ModalProps {
   event: CustomEvent | null;
@@ -9,7 +10,8 @@ interface ModalProps {
   initialTab?: 'attendees' | 'edit' | 'notifications' | 'reports';
 }
 
-export default function ManageEventModal({ event, isOpen, onClose, initialTab = 'attendees' }: ModalProps) {
+// ✅ FIXED: Converted to named export to match Dashboard layout bindings
+export function ManageEventModal({ event, isOpen, onClose, initialTab = 'attendees' }: ModalProps) {
   const [modalTab, setModalTab] = useState(initialTab);
 
   // Sync internal state when initialTab prop updates externally
@@ -29,15 +31,11 @@ export default function ManageEventModal({ event, isOpen, onClose, initialTab = 
     { name: 'Sofia Rodriguez', email: 'sofia.rod@student.edu', date: 'Apr 5, 2024', type: 'General Admission', status: 'Registered' },
   ];
 
-  // ✅ FIXED: Download pipeline engine for managing this active event's attendees
   const handleExportAttendeesCSV = () => {
     try {
       const targetTitle = event?.title || 'Event';
-      
-      // 1. Setup row headers
       const headers = ["Attendee Name", "Email Address", "Registration Date", "Ticket Type", "Attendance Status"];
       
-      // 2. Generate matrix records array
       const rows = mockAttendees.map(att => [
         `"${att.name.replace(/"/g, '""')}"`,
         `"${att.email.replace(/"/g, '""')}"`,
@@ -46,13 +44,11 @@ export default function ManageEventModal({ event, isOpen, onClose, initialTab = 
         `"${att.status}"`
       ]);
 
-      // 3. Join together CSV data stream contents
       const csvContent = [
         headers.join(","),
         ...rows.map(row => row.join(","))
       ].join("\n");
 
-      // 4. Dispatch simulated streaming download node instance
       const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
       const url = URL.createObjectURL(blob);
       const link = document.createElement("a");
@@ -85,11 +81,8 @@ export default function ManageEventModal({ event, isOpen, onClose, initialTab = 
 
   return (
     <div className="fixed inset-0 w-screen h-screen bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4 select-none animate-in fade-in duration-200">
-      
-      {/* Clickable Backdrop Shield */}
       <div className="absolute inset-0 -z-10" onClick={onClose} />
 
-      {/* Modal Main Box */}
       <div className="bg-white rounded-xl w-full max-w-[850px] shadow-xl overflow-hidden flex flex-col max-h-[90vh] transform transition-all">
         
         {/* Modal Header */}
@@ -143,7 +136,6 @@ export default function ManageEventModal({ event, isOpen, onClose, initialTab = 
                   <h4 className="text-base font-bold text-slate-800">Attendee List</h4>
                   <p className="text-xs text-slate-400 mt-0.5">5 registered &bull; 3 checked in</p>
                 </div>
-                {/* ✅ FIXED: Bound download callback routine directly here */}
                 <button 
                   onClick={handleExportAttendeesCSV}
                   className="bg-[#1e40af] hover:bg-blue-800 text-white border-none rounded-lg px-4 py-2 text-xs font-semibold cursor-pointer flex items-center justify-center gap-2 self-start sm:self-auto transition-colors shadow-sm"
@@ -239,7 +231,6 @@ export default function ManageEventModal({ event, isOpen, onClose, initialTab = 
                   <div className="bg-blue-50 text-[#1e40af] p-2.5 rounded-lg shrink-0"><Users size={18} /></div>
                   <div>
                     <h5 className="text-sm font-bold text-slate-800">Attendee Report</h5>
-                    {/* ✅ FIXED: Bound the download pipeline to this button link too */}
                     <button 
                       onClick={handleExportAttendeesCSV}
                       className="bg-none border-none p-0 mt-1 text-xs text-[#1e40af] hover:text-blue-800 font-bold cursor-pointer transition-colors inline-flex items-center gap-1"

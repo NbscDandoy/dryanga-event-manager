@@ -14,11 +14,11 @@ import {
   Building, 
   Megaphone, 
   Plus,
-  Download // 👈 Clean layout download icon
+  Download
 } from "lucide-react";
 
 import { useEvents } from "../context/EventsContext";
-import ManageEventModal from "./ManageEventModal";
+import { ManageEventModal } from "./ManageEventModal"; // ✅ FIXED: Changed to named import syntax
 import type { Event } from "../context/EventsContext";
 
 // UI Primitives 
@@ -91,7 +91,7 @@ export function EventOverview() {
     setShowManageModal(true);
   };
 
-  // ✅ FIXED: Self-contained spreadsheet file engine downloading ALL system events
+  // Self-contained spreadsheet file engine downloading ALL system events
   const handleDownloadAllEventsList = () => {
     if (!events || events.length === 0) {
       alert("No campus events found in the database to download.");
@@ -99,10 +99,8 @@ export function EventOverview() {
     }
 
     try {
-      // 1. Set headers for spreadsheet
       const headers = ["Event ID", "Title", "Scheduled Date", "Venue Location", "Participants Registered"];
       
-      // 2. Map all events to clean table records
       const rows = events.map(event => [
         `"${event.id || "N/A"}"`,
         `"${(event.title || "").replace(/"/g, '""')}"`,
@@ -111,13 +109,11 @@ export function EventOverview() {
         event.current_participants || 0
       ]);
 
-      // 3. Assemble full system string content array
       const csvContent = [
         headers.join(","),
         ...rows.map(row => row.join(","))
       ].join("\n");
 
-      // 4. Create local download instance streams 
       const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
       const url = URL.createObjectURL(blob);
       const tempLink = document.createElement("a");
@@ -127,10 +123,9 @@ export function EventOverview() {
       tempLink.style.visibility = "hidden";
       
       document.body.appendChild(tempLink);
-      tempLink.click(); // 🚀 Force browser download pipeline action
+      tempLink.click(); 
       document.body.removeChild(tempLink);
       
-      // Clean up memory cache instance reference
       URL.revokeObjectURL(url);
     } catch (err) {
       console.error("Export script error:", err);
@@ -187,13 +182,11 @@ export function EventOverview() {
     setShowManageModal(true);
   };
 
-  // If there are zero events at all, still show the box structure, but let them download or create!
   return (
     <>
       <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6 select-none text-left">
         <h3 className="font-bold text-gray-800 text-sm tracking-tight mb-4">Event Overview</h3>
         
-        {/* Featured Card Blueprint Container */}
         {featuredEvent ? (
           <div className="bg-gradient-to-br from-blue-50/60 to-white rounded-xl p-4 mb-4 border border-blue-100/50 shadow-xs">
             <h4 className="font-extrabold text-gray-800 text-sm tracking-tight mb-2 leading-snug line-clamp-2">
@@ -293,7 +286,6 @@ export function EventOverview() {
               </div>
             </button>
 
-            {/* ✅ FIXED: High-priority full context download execution mapping link */}
             <button 
               className="border border-slate-200/80 rounded-xl p-2.5 bg-emerald-50/30 hover:bg-emerald-50 hover:border-emerald-600 transition-all group cursor-pointer text-center" 
               onClick={handleDownloadAllEventsList}

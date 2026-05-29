@@ -1,11 +1,11 @@
 // src/app/pages/AllEvents.tsx
 import { useState } from "react";
 import { EventCard } from "../Components/EventCard";
-import ManageEventModal from "../Components/ManageEventModal";
-import PaymentSimulatorModal from "../Components/PaymentSimulatorModal"; // 💳 IMPORTED SIMULATOR MODAL
+import { ManageEventModal } from "../Components/ManageEventModal"; // ✅ FIXED: Changed to named import syntax
+import PaymentSimulatorModal from "../Components/PaymentSimulatorModal"; // 💳 IMPORTED SIMULATOR MODAL (Adjust with {} if its build fails next!)
 import { useEvents } from "../context/EventsContext";
 import type { Event } from "../context/EventsContext";
-import { CreditCard } from "lucide-react"; // Optional visual helper icon
+import { CreditCard } from "lucide-react"; 
 
 // Safe top-level date formatting utility with missing-string safety fallbacks
 const formatDate = (dateString: string) => {

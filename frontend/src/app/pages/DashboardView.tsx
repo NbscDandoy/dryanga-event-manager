@@ -15,8 +15,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import { MobilePreview } from "../Components/MobilePreview";
 import { useEvents } from "../context/EventsContext";
-import ManageEventModal from "../Components/ManageEventModal";
-import type { Event } from "../context/EventsContext";
+import { ManageEventModal } from "../Components/ManageEventModal"; // ✅ FIXED: Changed to named import syntax
+// import type { Event } from "../context/EventsContext";
 
 const analyticsData = [
   { id: "jan", month: "Jan", registrations: 85 },

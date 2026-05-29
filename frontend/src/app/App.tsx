@@ -5,7 +5,7 @@ import { EventsProvider } from "./context/EventsContext";
 import { AuthProvider } from "./context/AuthContext";
 
 // ✅ FIXED IMPORT: Changed from "ProtectedRoutes" to "ProtectedRoute" to match your actual file name!
-import ProtectedRoute from "./Components/ProtectedRoute";
+import ProtectedRoute from "./Components/ProtectedRoutes";
 import { DashboardLayout } from "./Components/DashboardLayout";
 
 // ✅ Pages
